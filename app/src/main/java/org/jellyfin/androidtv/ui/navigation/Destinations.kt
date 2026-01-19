@@ -18,6 +18,7 @@ import org.jellyfin.androidtv.ui.itemdetail.MusicFavoritesListFragment
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingFragment
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment
+import org.jellyfin.androidtv.ui.playback.external.ExternalStreamSelectorFragment
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpFragment
 import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingFragment
 import org.jellyfin.androidtv.ui.player.photo.PhotoPlayerFragment
@@ -148,5 +149,11 @@ object Destinations {
 
 	fun stillWatching(item: UUID) = fragmentDestination<StillWatchingFragment>(
 		NextUpFragment.ARGUMENT_ITEM_ID to item.toString()
+	)
+
+	// External stream selector
+	fun externalStreamSelector(scid: String, position: Int?) = fragmentDestination<ExternalStreamSelectorFragment>(
+		ExternalStreamSelectorFragment.EXTRA_SCID to scid,
+		ExternalStreamSelectorFragment.EXTRA_POSITION to position
 	)
 }

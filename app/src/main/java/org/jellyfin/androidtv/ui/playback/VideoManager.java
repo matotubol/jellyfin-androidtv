@@ -122,7 +122,7 @@ public class VideoManager {
         mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
-                Timber.e("***** Got error from player");
+                Timber.e(error, "***** Got error from player: %s (code: %d)", error.getMessage(), error.errorCode);
                 if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onError();
                 stopProgressLoop();
             }
@@ -141,8 +141,13 @@ public class VideoManager {
 
             @Override
             public void onPlaybackStateChanged(int playbackState) {
+                Timber.d("Player state changed to: %d (IDLE=1, BUFFERING=2, READY=3, ENDED=4)", playbackState);
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
+                }
+
+                if (playbackState == Player.STATE_READY) {
+                    Timber.d("Player is READY - playback should start");
                 }
 
                 if (playbackState == Player.STATE_ENDED) {

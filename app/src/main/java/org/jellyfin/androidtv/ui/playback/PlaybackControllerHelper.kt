@@ -159,11 +159,15 @@ fun PlaybackController.applyMediaSegments(
 ) {
 	val mediaSegmentRepository by fragment.inject<MediaSegmentRepository>()
 
+	Timber.d("applyMediaSegments: Starting for item ${item.id}")
 	fragment?.clearSkipOverlay()
 	fragment.lifecycleScope.launch {
+		Timber.d("applyMediaSegments: Coroutine launched")
 		val mediaSegments = runCatching {
 			mediaSegmentRepository.getSegmentsForItem(item)
 		}.getOrNull().orEmpty()
+
+		Timber.d("applyMediaSegments: Got ${mediaSegments.size} segments")
 
 		for (mediaSegment in mediaSegments) {
 			val action = mediaSegmentRepository.getMediaSegmentAction(mediaSegment)
@@ -175,6 +179,7 @@ fun PlaybackController.applyMediaSegments(
 			}
 		}
 
+		Timber.d("applyMediaSegments: Calling callback")
 		callback()
 	}
 }

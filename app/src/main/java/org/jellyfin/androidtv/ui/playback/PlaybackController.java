@@ -648,7 +648,9 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             mVideoManager.setMediaStreamInfo(api.getValue(), response);
         }
 
+        Timber.d("startItem: Calling applyMediaSegments");
         PlaybackControllerHelperKt.applyMediaSegments(this, item, () -> {
+            Timber.d("startItem: Callback executing, calling start()");
             // Set video start delay
             long videoStartDelay = userPreferences.getValue().get(UserPreferences.Companion.getVideoStartDelay());
             if (videoStartDelay > 0) {
