@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.VideoQueueManager
 import org.koin.android.ext.android.inject
+import org.koin.androidx.compose.koinViewModel
 import timber.log.Timber
 
 class ExternalStreamSelectorFragment : Fragment() {
@@ -36,10 +37,12 @@ class ExternalStreamSelectorFragment : Fragment() {
         JellyfinTheme {
             val scid = arguments?.getString(EXTRA_SCID) ?: ""
             val position = arguments?.getInt(EXTRA_POSITION)
+            val viewModel = koinViewModel<ExternalStreamSelectorViewModel>()
 
             ExternalStreamSelectorDialog(
                 visible = dialogVisible,
                 scid = scid,
+                viewModel = viewModel,
                 onDismissRequest = {
                     dialogVisible = false
                     navigationRepository.goBack()

@@ -35,6 +35,8 @@ import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
+import org.jellyfin.androidtv.ui.playback.external.ExternalStreamApi
+import org.jellyfin.androidtv.ui.playback.external.ExternalStreamSelectorViewModel
 import org.jellyfin.androidtv.ui.playback.nextup.NextUpViewModel
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepository
 import org.jellyfin.androidtv.ui.playback.segment.MediaSegmentRepositoryImpl
@@ -152,6 +154,13 @@ val appModule = module {
 	viewModel { SearchViewModel(get()) }
 	viewModel { DreamViewModel(get(), get(), get(), get(), get()) }
 	viewModel { SettingsViewModel() }
+	viewModel { ExternalStreamSelectorViewModel(get()) }
+
+	single {
+		val okHttpFactory = get<OkHttpFactory>()
+		val httpClientOptions = get<HttpClientOptions>()
+		ExternalStreamApi(okHttpFactory.createClient(httpClientOptions))
+	}
 
 	single { BackgroundService(get(), get(), get(), get(), get()) }
 
